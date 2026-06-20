@@ -1,2 +1,2 @@
 # PythonLearning
-Learn and Practice Pyton
+Learn and practice Python through code challenges.
