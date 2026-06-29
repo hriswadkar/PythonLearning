@@ -1,6 +1,7 @@
-# This program accepts student name and marks from the user and stores them in a dictionary.
-# It then displays average marks per student.
-# It also finds the top scorer and returns scorer name + score.
+"""Collect student marks, calculate averages, and optionally save the data."""
+
+import json
+from pathlib import Path
 
 def get_student_details() -> dict[str, list[float]]:
     student_marks: dict[str, list[float]] = {}
@@ -70,6 +71,14 @@ def find_top_scorer(average_marks: dict[str, float]) -> tuple[str | None, float]
     return top_scorer, top_score
 
 
+def save_student_marks_to_file(
+    student_marks: dict[str, list[float]], file_path: str = "student_marks.json"
+) -> None:
+    output_path = Path(file_path)
+    with output_path.open("w", encoding="utf-8") as file:
+        json.dump(student_marks, file, indent=2)
+
+
 def main() -> None:
     print("This program calculates average marks per student and finds the top scorer.")
     student_marks = get_student_details()
@@ -85,6 +94,12 @@ def main() -> None:
         print(f"{name}: {avg:.2f}")
 
     print(f"\nTop scorer: {top_scorer} with an average score of {top_score:.2f}")
+
+    save_response = input("\nWould you like to save the student marks to a file? (y/n): ").strip().lower()
+    if save_response in {"y", "yes"}:
+        file_path = input("Enter file name to save the marks: ").strip() or "student_marks.json"
+        save_student_marks_to_file(student_marks, file_path)
+        print(f"Student marks saved to {file_path}")
 
 
 if __name__ == "__main__":
